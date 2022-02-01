@@ -17,7 +17,7 @@ if (cluster.isMaster) {
 } else {
 
     const express = require('express');
-    // var cors = require('cors');
+    var cors = require('cors');
     var bodyParser = require('body-parser');
     const app = express();
     const port = 4001;
