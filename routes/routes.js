@@ -76,6 +76,7 @@ var bidobject = {
     lowest_bid:null,
     mobile:'',
     mpesa:'',
+    category:''
 }
 
 module.exports = function(app){
@@ -99,6 +100,7 @@ module.exports = function(app){
         bidobject.bid_placed = req.body.price;
         bidobject.lowest_bid = req.body.lowest;
         bidobject.mobile = req.body.mobile;
+        bidobject.category = req.body.category;
 
         const body = {
             "BusinessShortCode": 174379,
