@@ -22,11 +22,11 @@ if (cluster.isMaster) {
     const app = express();
     const port = 4001;
 
-    // var origins = ['https://lowbids.co.ke', 'https://dashboard.lowbids.co.ke'];
+    var origins = ['https://lowbids.co.ke'];
 
-    // app.use(cors({
-    //   origin: origins
-    // }));
+    app.use(cors({
+      origin: origins
+    }));
 
     app.use(bodyParser.json({limit: '50mb'}));
     app.use(express.urlencoded({ extended: true },{limit: '50mb'}));
