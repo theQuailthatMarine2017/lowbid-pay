@@ -102,21 +102,27 @@ module.exports = function(app){
         bidobject.mobile = req.body.mobile;
         bidobject.category = req.body.category;
 
+        var shortcode = 4084101
+        var Timestamp = new Date()
+        var passKey = e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc
+        var password =  `${shortcode}${passKey}${Timestamp}`
+        let base64string = Buffer.from(password, 'utf-8').toString('base64');
+
         const body = {
-            "BusinessShortCode": 174379,
-            "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjExMjIzMTQ0OTUz",
-            "Timestamp": "20211223144953",
+            "BusinessShortCode": 4084101,
+            "Password": base64string,
+            "Timestamp": Timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 1,
             "PartyA": req.body.mobile.replace('+', ''),
-            "PartyB": 174379,
+            "PartyB": 4084101,
             "PhoneNumber": req.body.mobile.replace('+', ''),
-            "CallBackURL": "https://api.lowbids.co.ke/payments/bid/callback",
+            "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
             "AccountReference": "LowBid Payments",
             "TransactionDesc": "LowBid Payment" 
           }
 
-        await axios.post('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
+        await axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization':'Bearer h8AC5BdSdTNGByznXxZzGwbQ1GO4'
