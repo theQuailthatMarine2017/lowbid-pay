@@ -91,9 +91,9 @@ module.exports = function(app){
 
     app.post('/bid/place', async (req,response) => {
 
-        res.header("Access-Control-Allow-Origin", "https://lowbids.co.ke");
-        res.header("Access-Control-Allow-Methods", "GET");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Accept, x-client-key, x-client-token, x-client-secret, Authorization");
+        response.header("Access-Control-Allow-Origin", "https://lowbids.co.ke");
+        response.header("Access-Control-Allow-Methods", "GET");
+        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Accept, x-client-key, x-client-token, x-client-secret, Authorization");
 
         connection.connect();
     
