@@ -131,16 +131,18 @@ module.exports = function(app){
             "TransactionDesc": "LowBid Payment" 
           }
 
-        await axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization':'Bearer Yh1zzGO4A2gHDOQoZ366LBBeua0F'
-            }}).then( res => {
-                console.log('<-------MPESA TRANSACTION SENT--------->');
-                response.json({message:res.data.ResponseDescription})
-            }).catch(error => {
-                response.json({message:error,body:req});
-            });
+          response.json({message:body});
+
+        // await axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization':'Bearer Yh1zzGO4A2gHDOQoZ366LBBeua0F'
+        //     }}).then( res => {
+        //         console.log('<-------MPESA TRANSACTION SENT--------->');
+        //         response.json({message:res.data.ResponseDescription})
+        //     }).catch(error => {
+        //         response.json({message:error,body:req});
+        //     });
     
     });
 
