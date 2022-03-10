@@ -134,8 +134,17 @@ module.exports = function(app){
                 'Content-Type': 'application/json',
                 'Authorization':'Bearer bx4feTnIM59kNGcrUy7j5dgBnXSU'
             }}).then( res => {
-                console.log('<-------MPESA TRANSACTION SENT--------->');
-                response.json({message:res.data.ResponseDescription})
+                console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
+                let bid_ = bid.bids(bidobject.name,20,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
+                connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
+                    if (error){
+                        res.json({message:error});
+                    }else{
+                        response.json({message:res.data.ResponseDescription})
+                    }
+                    
+                });
+                
             }).catch(error => {
                 response.json({message:error});
             });
@@ -150,7 +159,7 @@ module.exports = function(app){
         if(req.body.Body.stkCallback.ResultCode === 1 || req.body.stkCallback.Body.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
             // LOG ERROR 
             console.log('<------FAILED MPESA TRANSACTION-------->');
-            const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, req.body.Body.ResultDesc, 'callback from mpesa','callback from mpesa');
+            const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, req.body.Body.stkCallback.ResultDesc, 'callback from mpesa','callback from mpesa');
             connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
                 if (error){
                     res.json({message:"Server Error"});
@@ -159,9 +168,8 @@ module.exports = function(app){
         }else{
             //PAYMENT WAS SUCCESSFUL, ADD MPESA TRANSACTION CODE FOR BID OBJECT FROM STK RESPONSE
             console.log('<------SUCCESSFUL MPESA TRANSACTION-------->');
-            let bid_ = bid.bids(bidobject.name,20,bidobject.lowest_bid,bidobject.mobile,bidobject.category);
-            console.log(bid_ );
-            connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
+            
+            connection.query('UPDATE BIDS SET PAID = ? WHERE MPESA_CODE =  ?', [1,req.body.Body.stkCallback.CheckoutRequestID], function (error, results) {
                         if (error){
                             console.log('<------BID SAVE ERROR-------->');
                             console.log(error)
@@ -173,50 +181,67 @@ module.exports = function(app){
                                     res.json({message:"Server Error"});
                                 }
                               });
-        
+
                         }else{
-                            // SUCCESFUL! SUBMIT INFO
-                            console.log('<------BID MOUNT UPDATING-------->');
-                            connection.query('UPDATE PRODUCTS SET TOTAL_BIDS = TOTAL_BIDS + 1, AMOUNT_RAISED = AMOUNT_RAISED + ? WHERE NAME = ?' , [bid_.BID_AMOUNT,bid_.PRODUCT], function (error) {
+
+                            //IF STK WAS SUCCESS
+                            connection.query('SELECT PRODUCT,BID_AMOUNT FROM BIDS WHERE MPESA_CODE = ?',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
+
                                 if (error){
-                                    console.log(error);
+                                    console.log('<------BID SAVE ERROR-------->');
+                                    console.log(error)
+
                                 }else{
-                                    // log action
-                                    console.log('<------BID AMOUNT UPDATED-------->');
-                                    const log_ = new log(sys_actions.products.updated,sys_actions.outcome.success,null, 'callback from mpesa','callback from mpesa');
-                                    // Neat!
-                                    connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
-                                        if (error){
-                                            console.log(error);
-                                        }else{
-                                            // Neat!
-                                            //Africa Talking SMS to Winning Mobile
-                                            const options = {
-                                                to: [bid_.MOBILE],
-                                                message: 'Your Bid Has Been Successfully Placed! You Can Place As Many Bids As You Want! Thank You For Choosing Lowbids!'
-                                            }
 
-                                            sms.send(options)
-                                                .then( response => {
-
-                                                    console.log(response.SMSMessageData["Recipients"])
-                                                    if(response["Recipients"] != []){
-                                                        res.json({message:"Bid Placed"});
-
+                                    // SUCCESFUL! UPDATE PRODUCT
+                                console.log('<------BID MOUNT UPDATING-------->');
+                                connection.query('UPDATE PRODUCTS SET TOTAL_BIDS = TOTAL_BIDS + 1, AMOUNT_RAISED = AMOUNT_RAISED + ? WHERE NAME = ?' , [bid.BID_AMOUNT,bid.PRODUCT], function (error) {
+                                    if (error){
+                                        console.log(error);
+                                    }else{
+                                        // log action
+                                        console.log('<------BID AMOUNT UPDATED-------->');
+                                        const log_ = new log(sys_actions.products.updated,sys_actions.outcome.success,null, 'callback from mpesa','callback from mpesa');
+                                        // Neat!
+                                        connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
+                                            if (error){
+                                                        console.log(error);
                                                     }else{
-                                                        res.json({message:response.Message});
-                                                    }
-                                                })
-                                                .catch( error => {
+                                                        // Neat!
+                                                        //Africa Talking SMS to Winning Mobile
+                                                        const options = {
+                                                            to: [bid.MOBILE],
+                                                            message: 'Your Bid Has Been Successfully Placed! You Can Place As Many Bids As You Want! Thank You For Choosing Lowbids!'
+                                                        }
 
-                                                    console.log(error)
-                                                    res.json({message:error});
+                                                        sms.send(options)
+                                                            .then( response => {
+
+                                                                console.log(response.SMSMessageData["Recipients"])
+                                                                if(response["Recipients"] != []){
+                                                                    res.json({message:"Bid Placed"});
+
+                                                                }else{
+                                                                    res.json({message:response.Message});
+                                                                }
+                                                            })
+                                                            .catch( error => {
+
+                                                                console.log(error)
+                                                                res.json({message:error});
+                                                            });
+                                                        
+                                                    }
                                                 });
-                                            
-                                        }
-                                      });
+                                            }
+                                        });
+
                                 }
-                              });
+
+                        
+                            })
+                            
+                            
                         }
                       });
 
