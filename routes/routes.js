@@ -140,7 +140,7 @@ module.exports = function(app){
                     if (error){
                         res.json({message:error});
                     }else{
-                        response.json({message:res.data.ResponseDescription})
+                        response.json({message:"Payment Request Receieved. Processing"})
                     }
                     
                 });
