@@ -210,7 +210,7 @@ module.exports = function(app){
                                                         // Neat!
                                                         //Africa Talking SMS to Winning Mobile
                                                         const options = {
-                                                            to: [bid.MOBILE],
+                                                            to: [bid.MOBILE_NO],
                                                             message: 'Your Bid Has Been Successfully Placed! You Can Place As Many Bids As You Want! Thank You For Choosing Lowbids!'
                                                         }
 
