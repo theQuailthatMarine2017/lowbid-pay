@@ -159,7 +159,7 @@ module.exports = function(app){
         }else{
             //PAYMENT WAS SUCCESSFUL, ADD MPESA TRANSACTION CODE FOR BID OBJECT FROM STK RESPONSE
             console.log('<------SUCCESSFUL MPESA TRANSACTION-------->');
-            let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile);
+            let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category);
             console.log(bid_ );
             connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
                         if (error){
