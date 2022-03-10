@@ -147,7 +147,7 @@ module.exports = function(app){
         console.log("<------ STK RESPONSE ------->")
         console.log(bidobject)
         //PAYMENT HAD ERROR
-        if(req.body.Body.ResultCode === 1 || req.body.Body.ResultCode === 1032 || req.body.Body.ResultCode === 2001 || req.body.Body.ResultCode === 1037){
+        if(req.body.Body.stkCallback.ResultCode === 1 || req.body.stkCallback.Body.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
             // LOG ERROR 
             console.log('<------FAILED MPESA TRANSACTION-------->');
             const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, req.body.Body.ResultDesc, 'callback from mpesa','callback from mpesa');
@@ -159,7 +159,7 @@ module.exports = function(app){
         }else{
             //PAYMENT WAS SUCCESSFUL, ADD MPESA TRANSACTION CODE FOR BID OBJECT FROM STK RESPONSE
             console.log('<------SUCCESSFUL MPESA TRANSACTION-------->');
-            let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category);
+            let bid_ = bid.bids(bidobject.name,20,bidobject.lowest_bid,bidobject.mobile,bidobject.category);
             console.log(bid_ );
             connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
                         if (error){
