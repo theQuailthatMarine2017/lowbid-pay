@@ -131,7 +131,7 @@ module.exports = function(app){
         await axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':'Bearer npBB7p9lg8CBhiU2rGrXFW3hxIno'
+                'Authorization':'Bearer lyumDLAZryQu3SjxAyjILOEPULXa'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT--------->');
                 response.json({message:res.data.ResponseDescription})
