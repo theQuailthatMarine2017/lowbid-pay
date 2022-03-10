@@ -106,7 +106,7 @@ module.exports = function(app){
         bidobject.mobile = req.body.mobile;
         bidobject.category = req.body.category;
 
-        var shortcode = 4084101
+        var shortcode = "4084101"
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
 
         let timestamp = require('../middleware/timestamp').timestamp;
@@ -119,10 +119,10 @@ module.exports = function(app){
             "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
-            "Amount": 1,
-            "PartyA": req.body.mobile.replace('+', ''),
+            "Amount": 10,
+            "PartyA": parseInt(req.body.mobile.replace('+', '')),
             "PartyB": 4084101,
-            "PhoneNumber": req.body.mobile.replace('+', ''),
+            "PhoneNumber": parseInt(req.body.mobile.replace('+', '')),
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
             "AccountReference": "LowBid Payments",
             "TransactionDesc": "LowBid Payment" 
@@ -136,7 +136,7 @@ module.exports = function(app){
                 console.log('<-------MPESA TRANSACTION SENT--------->');
                 response.json({message:res.data.ResponseDescription})
             }).catch(error => {
-                response.json({message:error});
+                response.json({message:error,body:req});
             });
     
     });
