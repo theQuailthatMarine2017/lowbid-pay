@@ -92,7 +92,7 @@ module.exports = function(app){
     app.post('/bid/place', async (req,response) => {
 
         response.header("Access-Control-Allow-Origin", "https://lowbids.co.ke");
-        response.header("Access-Control-Allow-Methods", "GET");
+        response.header("Access-Control-Allow-Methods", "GET","POST");
         response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Accept, x-client-key, x-client-token, x-client-secret, Authorization");
 
         connection.connect();
@@ -108,7 +108,7 @@ module.exports = function(app){
 
         bidobject.mobile = bidobject.mobile.replace(' ', '')
         bidobject.mobile = bidobject.mobile.replace(0, 254);
-        
+
         var shortcode = "4084101"
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
 
