@@ -106,8 +106,8 @@ module.exports = function(app){
         bidobject.mobile = req.body.mobile;
         bidobject.category = req.body.category;
 
-        bidobject.mobile = bidobject.mobile.replace(' ', '')
-        bidobject.mobile = bidobject.mobile.replace(0, 254);
+       
+        bidobject.mobile = bidobject.mobile.slice(1);
 
         var shortcode = 4084101
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
@@ -123,9 +123,9 @@ module.exports = function(app){
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 10,
-            "PartyA": parseInt(req.body.mobile.replace('+', '')),
+            "PartyA": bidobject.mobile,
             "PartyB": 4084101,
-            "PhoneNumber": parseInt(req.body.mobile.replace('+', '')),
+            "PhoneNumber": bidobject.mobile,
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
             "AccountReference": "LowBid Payments",
             "TransactionDesc": "LowBid Payment" 
