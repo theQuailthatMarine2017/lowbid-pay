@@ -113,14 +113,12 @@ module.exports = function(app){
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
 
         let timestamp = require('../middleware/timestamp').timestamp;
-
-        var password =  `${shortcode}${passKey}${timestamp}`
-        let base64string = Buffer.from(password, 'utf-8').toString('base64');
+        let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
 
         const body = {
             "BusinessShortCode": 4084101,
             "Password": base64string,
-            "Timestamp": new Date(timestamp),
+            "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 10,
             "PartyA": parseInt(bidobject.mobile),
@@ -131,7 +129,7 @@ module.exports = function(app){
             "TransactionDesc": "LowBid Payment" 
           }
 
-        await axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
+         axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization':'Bearer ARAE8BsigyUF6EfBli9RXr5WdUi'
