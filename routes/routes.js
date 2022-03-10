@@ -106,6 +106,9 @@ module.exports = function(app){
         bidobject.mobile = req.body.mobile;
         bidobject.category = req.body.category;
 
+        bidobject.mobile = bidobject.mobile.replace(' ', '')
+        bidobject.mobile = bidobject.mobile.replace(0, 254);
+        
         var shortcode = "4084101"
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
 
