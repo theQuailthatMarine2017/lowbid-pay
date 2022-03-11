@@ -153,6 +153,7 @@ module.exports = function(app){
             }).catch(error => {
                 response.json({error:error})
             });
+            
     
     });
 
@@ -160,7 +161,7 @@ module.exports = function(app){
 
         connection.connect();
 
-        connection.query('INSERT INTO callback SET ?',[req.body.Body.stkCallback.ResultCode], function (err, results) {
+        connection.query('INSERT INTO callback SET ?',[parseString(req.body.Body.stkCallback)], function (err, results) {
             if (err){
                 console.log(err)
                 const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, err, 'mpesa request','mpesa request');
