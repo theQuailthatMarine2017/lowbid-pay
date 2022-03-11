@@ -122,7 +122,7 @@ module.exports = function(app){
             "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
-            "Amount": 1,
+            "Amount": 1000,
             "PartyA": parseInt(bidobject.mobile),
             "PartyB": 4084101,
             "PhoneNumber": parseInt(bidobject.mobile),
@@ -177,7 +177,7 @@ module.exports = function(app){
 
         console.log("<------ STK RESPONSE ------->")
         //PAYMENT HAD ERROR
-        if(req.body.Body.stkCallback.ResultCode === 1 || req.body.stkCallback.Body['ResultCode'] === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
+        if(req.body.Body.stkCallback.ResultCode === 1 || req.body.stkCallback.Body.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
             // LOG ERROR 
             console.log('<------FAILED MPESA TRANSACTION-------->');
             const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, req.body.Body.stkCallback.ResultDesc, 'callback from mpesa','callback from mpesa');
