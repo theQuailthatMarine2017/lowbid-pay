@@ -123,9 +123,9 @@ module.exports = function(app){
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 1,
-            "PartyA": parseInt(bidobject.mobile),
+            "PartyA": 254705009784,
             "PartyB": 4084101,
-            "PhoneNumber": parseInt(bidobject.mobile),
+            "PhoneNumber": 254705009784,
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
             "AccountReference": "LowBid Payment",
             "TransactionDesc": "LowBid Payment" 
