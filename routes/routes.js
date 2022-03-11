@@ -117,7 +117,7 @@ module.exports = function(app){
 
          axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
             "BusinessShortCode": 4084101,
-            "Password": 'NDA4NDEwMWU0MmNhM2NmM2JmYjg0YmU0NzRiYTQ4NWFhZjNjNWNhZjk0ODIwZDFhYjdkMjk5ZTQzZDFkMTRlZDBlMGZlZmMyMDE2MDIxNjE2NTYyNw==',
+            "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 1,
@@ -149,7 +149,7 @@ module.exports = function(app){
                 });
                 
             }).catch(error => {
-                response.json({error:error})
+                response.json({error:"oooppsss"})
             });
             
     
