@@ -151,7 +151,7 @@ module.exports = function(app){
                 });
                 
             }).catch(error => {
-                response.json({error:"An error occured.",error});
+                response.json({error:"An error occured."});
             });
     
     });
