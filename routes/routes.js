@@ -129,10 +129,10 @@ module.exports = function(app){
             "TransactionDesc": "LowBid Payment" 
           }
 
-         await axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
+         axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
             headers: {
                 
-                'Authorization':'Bearer NSi9qlO3hGSOXHCbaSP6ZwbAu7pV'
+                'Authorization':'Bearer D6TsfoWm6xuVCh1niRAbsrQ5P6qW'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
