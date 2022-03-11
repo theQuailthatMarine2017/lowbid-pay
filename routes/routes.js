@@ -185,7 +185,7 @@ module.exports = function(app){
     app.post('/payments/bid/callback', async(req,res) => {
 
         connection.connect();
-        console.log(req.body.Body.stkCallback.ResultCode);  
+        
 
         console.log("<------ STK RESPONSE ------->")
         //PAYMENT HAD ERROR
@@ -202,7 +202,7 @@ module.exports = function(app){
             //PAYMENT WAS SUCCESSFUL, ADD MPESA TRANSACTION CODE FOR BID OBJECT FROM STK RESPONSE
             console.log('<------SUCCESSFUL MPESA TRANSACTION-------->');
             
-            connection.query('UPDATE BIDS SET PAID = ? WHERE MPESA_CODE =  ?', [1,req.body.Body.stkCallback.CheckoutRequestID], function (error, results) {
+            connection.query('UPDATE BIDS SET PAID = ? WHERE MPESA_CODE =  ?', [true,req.body.Body.stkCallback.CheckoutRequestID], function (error, results) {
                         if (error){
                             console.log('<------BID SAVE ERROR-------->');
                             //LOG ERROR 
@@ -216,8 +216,10 @@ module.exports = function(app){
 
                         }else{
 
+                            console.log("Bid update reulsts "+ results)
+
                             //IF BID PAID CONFIRMED UPDATE PRODUCTS INFO
-                            connection.query('SELECT PRODUCT,BID_AMOUNT,MOBILE_NO FROM BIDS WHERE MPESA_CODE = ?',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
+                            connection.query('SELECT PRODUCT,BID_AMOUNT,MOBILE_NO FROM BIDS WHERE MPESA_CODE = ? LIMIT 1',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
 
                                 if (error){
                                     console.log('<------BID QUERY ERROR-------->');
@@ -225,13 +227,16 @@ module.exports = function(app){
 
                                 }else{
 
+                                console.log(bid)
+
                                     // SUCCESFUL! UPDATE PRODUCT
                                 console.log('<------BID MOUNT UPDATING-------->');
-                                connection.query('UPDATE PRODUCTS,BIDS SET PRODUCTS.TOTAL_BIDS = TOTAL_BIDS + 1, BIDS.PAID = 1, PRODUCTS.AMOUNT_RAISED = PRODUCTS.AMOUNT_RAISED + ? WHERE PRODUCTS.NAME = ? AND BIDS.MOBILE_NO = ?' , [bid.BID_AMOUNT,bid.PRODUCT,bid.MOBILE_NO], function (error) {
+                                connection.query('UPDATE PRODUCTS SET PRODUCTS = TOTAL_BIDS + 1, AMOUNT_RAISED = AMOUNT_RAISED + ? WHERE NAME = ?' , [bid.BID_AMOUNT,bid.PRODUCT], function (error,results) {
                                     if (error){
                                         console.log(error);
                                     }else{
                                         // log action
+                                        console.log(results);
                                         console.log('<------BID AMOUNT UPDATED-------->');
                                         const log_ = new log(sys_actions.products.updated,sys_actions.outcome.success,null, 'callback from mpesa','callback from mpesa');
                                         // Neat!
