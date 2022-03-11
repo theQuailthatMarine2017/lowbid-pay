@@ -120,7 +120,7 @@ module.exports = function(app){
             "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
-            "Amount": 5,
+            "Amount": 4,
             "PartyA": parseInt(bidobject.mobile),
             "PartyB": 4084101,
             "PhoneNumber": parseInt(bidobject.mobile),
