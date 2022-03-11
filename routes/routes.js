@@ -132,9 +132,10 @@ module.exports = function(app){
                 'Content-Type':'application/json',
                 'Authorization':'Bearer GIVuoGm1HtWLfPgxVAigfMXjdtA0'
             }}).then( res => {
-                console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
+                console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY! --------->');
+                console.log(res.data)
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
-
+                console.log(bid_)
                 connection.query('INSERT INTO BIDS SET ?', [bid_], function (err, results) {
                     if (err){
                         const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, error, 'mpesa request','mpesa request');

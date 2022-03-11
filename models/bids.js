@@ -17,7 +17,7 @@ class bid{
 }
 
 //Functions For Access Accounts and Sys Logs
-module.exports.bids = function (name,bid_placed,lowest,mobile,category) {
+module.exports.bids = function (name,bid_placed,lowest,mobile,category,code) {
 
     const new_ = new bid(name,bid_placed,lowest,mobile,category,code);
 
