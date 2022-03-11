@@ -134,7 +134,7 @@ module.exports = function(app){
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY! --------->');
                 console.log(res.data)
-                let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
+                let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.CheckoutRequestID);
                 console.log(bid_)
                 connection.query('INSERT INTO BIDS SET ?', [bid_], function (err, results) {
                     if (err){
@@ -219,7 +219,7 @@ module.exports = function(app){
                             console.log("Bid update reulsts "+ results)
 
                             //IF BID PAID CONFIRMED UPDATE PRODUCTS INFO
-                            connection.query('SELECT PRODUCT,BID_AMOUNT,MOBILE_NO FROM BIDS WHERE MPESA_CODE = ? LIMIT 1',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
+                            connection.query('SELECT PRODUCT,BID_AMOUNT,MOBILE_NO FROM BIDS WHERE MPESA_CODE = ?',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
 
                                 if (error){
                                     console.log('<------BID QUERY ERROR-------->');
@@ -231,7 +231,7 @@ module.exports = function(app){
 
                                     // SUCCESFUL! UPDATE PRODUCT
                                 console.log('<------BID MOUNT UPDATING-------->');
-                                connection.query('UPDATE PRODUCTS SET PRODUCTS = TOTAL_BIDS + 1, AMOUNT_RAISED = AMOUNT_RAISED + ? WHERE NAME = ?' , [bid.BID_AMOUNT,bid.PRODUCT], function (error,results) {
+                                connection.query('UPDATE PRODUCTS SET TOTAL_BIDS = TOTAL_BIDS + 1, AMOUNT_RAISED = AMOUNT_RAISED + ? WHERE NAME = ?' , [bid.BID_AMOUNT,bid.PRODUCT], function (error,results) {
                                     if (error){
                                         console.log(error);
                                     }else{
