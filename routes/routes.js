@@ -138,7 +138,7 @@ module.exports = function(app){
                 console.log(bid_)
                 connection.query('INSERT INTO BIDS SET ?', [bid_], function (err, results) {
                     if (err){
-                        const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, error, 'mpesa request','mpesa request');
+                        const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, err, 'mpesa request','mpesa request');
                             connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (err) {
                                 if (err){
                                     res.json({message:"Server Error"});
@@ -185,7 +185,7 @@ module.exports = function(app){
     app.post('/payments/bid/callback', async(req,res) => {
 
         connection.connect();
-        console.log(req.body.Body);
+        console.log(req.body.Body.stkCallback.ResultCode);
         // connection.query('INSERT INTO callback SET ?',[parseString(req.body.Body.stkCallback)], function (err, results) {
         //     if (err){
         //         console.log(err)
