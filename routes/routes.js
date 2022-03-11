@@ -130,9 +130,10 @@ module.exports = function(app){
           },{
             headers: {
                 'Accept-Encoding':'gzip, deflate, br',
+                'User-Agent':'PostmanRuntime/7.28.3',
                 'Connection':'keep-alive',
                 'Content-Type':'application/json',
-                'Authorization':'Bearer D6TsfoWm6xuVCh1niRAbsrQ5P6qW'
+                'Authorization':'Bearer GIVuoGm1HtWLfPgxVAigfMXjdtA0'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
