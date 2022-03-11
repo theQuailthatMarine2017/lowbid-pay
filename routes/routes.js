@@ -219,7 +219,7 @@ module.exports = function(app){
                             console.log("Bid update reulsts "+ results)
 
                             //IF BID PAID CONFIRMED UPDATE PRODUCTS INFO
-                            connection.query('SELECT PRODUCT,BID_AMOUNT,MOBILE_NO FROM BIDS WHERE MPESA_CODE = ?',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
+                            connection.query('SELECT PRODUCT,BID_AMOUNT,MOBILE_NO FROM BIDS WHERE MPESA_CODE = ? LIMIT 1',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
 
                                 if (error){
                                     console.log('<------BID QUERY ERROR-------->');
