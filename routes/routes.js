@@ -247,8 +247,8 @@ module.exports = function(app){
                                                         // Neat!
                                                         //Africa Talking SMS to Winning Mobile
                                                         const options = {
-                                                            to: [bid[0].MOBILE_NO],
-                                                            message: 'Your Bid Has Been Successfully Placed! You Can Place As Many Bids As You Want! Thank You For Choosing Lowbids!'
+                                                            to: [`+${bid[0].MOBILE_NO}`],
+                                                            message: 'Congratulations! Your Bid Has Been Successfully Placed! Thank You For Choosing Lowbids!'
                                                         }
 
                                                         sms.send(options)
