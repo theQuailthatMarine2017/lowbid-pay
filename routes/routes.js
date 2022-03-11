@@ -151,7 +151,7 @@ module.exports = function(app){
                 });
                 
             }).catch(error => {
-                response.json({error:error});
+                response.json({error:"An error occured.",error});
             });
     
     });
@@ -159,7 +159,6 @@ module.exports = function(app){
     app.post('/payments/bid/callback', async(req,res) => {
 
         console.log("<------ STK RESPONSE ------->")
-        console.log(bidobject)
         //PAYMENT HAD ERROR
         if(req.body.Body.stkCallback.ResultCode === 1 || req.body.stkCallback.Body.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
             // LOG ERROR 
