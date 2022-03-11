@@ -109,7 +109,7 @@ module.exports = function(app){
        
         bidobject.mobile = `254${bidobject.mobile.slice(1).replace(" ","")}`;
 
-        var shortcode = 4084101
+        var shortcode = '4084101'
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
 
         let timestamp = require('../middleware/timestamp').timestamp;
