@@ -131,7 +131,7 @@ module.exports = function(app){
 
          axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
             headers: {
-                'Content-Type': 'application/json',
+                
                 'Authorization':'Bearer NSi9qlO3hGSOXHCbaSP6ZwbAu7pV'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
@@ -146,7 +146,7 @@ module.exports = function(app){
                                 }
                                 })
                     }else{
-                        response.json({message:"Payment Request Receieved. Processing",bid:bid_})
+                        response.json({message:"Payment Request Receieved. Processing"})
                     }
                 });
                 
