@@ -113,11 +113,11 @@ module.exports = function(app){
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
 
         let timestamp = require('../middleware/timestamp').timestamp;
-        // let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
+        let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
 
         const body = {
             "BusinessShortCode": 4084101,
-            "Password": 'NDA4NDEwMWU0MmNhM2NmM2JmYjg0YmU0NzRiYTQ4NWFhZjNjNWNhZjk0ODIwZDFhYjdkMjk5ZTQzZDFkMTRlZDBlMGZlZmMyMDE2MDIxNjE2NTYyNw==',
+            "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 1,
@@ -137,11 +137,11 @@ module.exports = function(app){
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
 
-                connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
-                    if (error){
+                connection.query('INSERT INTO BIDS SET ?', [bid_], function (err, results) {
+                    if (err){
                         const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, error, 'mpesa request','mpesa request');
-                            connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
-                                if (error){
+                            connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (err) {
+                                if (err){
                                     res.json({message:"Server Error"});
                                 }
                                 })
@@ -151,7 +151,7 @@ module.exports = function(app){
                 });
                 
             }).catch(error => {
-                response.json({error:"error occured!check token"})
+                response.json({error:error})
             });
     
     });
