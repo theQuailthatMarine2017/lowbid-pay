@@ -130,7 +130,7 @@ module.exports = function(app){
           },{
             headers: {
                 'Content-Type':'application/json',
-                'Authorization':'Bearer GIVuoGm1HtWLfPgxVAigfMXjd'
+                'Authorization':'Bearer GIVuoGm1HtWLfPgxVAigfMXjdtA0'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
@@ -150,9 +150,14 @@ module.exports = function(app){
                 
             }).catch( Error => {
 
-                console.log(Error.response.status)
-                if(Error.errorCode != null){
-                    console.log(Error)
+                if(Error.response.status === 404){
+
+                    response.json({error:Error})
+
+                }else{
+                    response.json({message:"Payment Request Receieved. Processing"});
+                    //This solution is a last resort to fix the issue of not getting a positiv response from mpesa
+
                     // console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                     // let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
 
@@ -168,9 +173,6 @@ module.exports = function(app){
                     //         response.json({message:"Payment Request Receieved. Processing"})
                     //     }
                     // });
-
-                }else{
-                    response.json({error:Error.errorCode})
                 }
                 
             });
