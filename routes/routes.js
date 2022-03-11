@@ -151,7 +151,7 @@ module.exports = function(app){
                 });
                 
             }).catch(error => {
-                response.json({error:"error occured",error})
+                response.json({error:"error occured!check token"})
             });
     
     });
