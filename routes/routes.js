@@ -185,20 +185,7 @@ module.exports = function(app){
     app.post('/payments/bid/callback', async(req,res) => {
 
         connection.connect();
-        console.log(req.body.Body.stkCallback.ResultCode);
-        // connection.query('INSERT INTO callback SET ?',[parseString(req.body.Body.stkCallback)], function (err, results) {
-        //     if (err){
-        //         console.log(err)
-        //         const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, err, 'mpesa request','mpesa request');
-        //                     connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (err) {
-        //                         if (err){
-        //                             console.log("h")
-        //                         }
-        //                         })
-        //     }
-        // });
-        
-       
+        console.log(req.body.Body.stkCallback.ResultCode);  
 
         console.log("<------ STK RESPONSE ------->")
         //PAYMENT HAD ERROR
@@ -229,11 +216,11 @@ module.exports = function(app){
 
                         }else{
 
-                            //IF STK WAS SUCCESS
+                            //IF BID PAID CONFIRMED UPDATE PRODUCTS INFO
                             connection.query('SELECT PRODUCT,BID_AMOUNT FROM BIDS WHERE MPESA_CODE = ?',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
 
                                 if (error){
-                                    console.log('<------BID SAVE ERROR-------->');
+                                    console.log('<------BID QUERY ERROR-------->');
                                     console.log(error)
 
                                 }else{
