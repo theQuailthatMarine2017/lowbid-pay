@@ -150,7 +150,8 @@ module.exports = function(app){
                 
             }).catch( Error => {
 
-                if(Error.response.status != undefined){
+                console.log(Error)
+                if(Error != {}){
 
                     response.json({error:Error})
 
