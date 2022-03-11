@@ -115,7 +115,9 @@ module.exports = function(app){
         let timestamp = require('../middleware/timestamp').timestamp;
         let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
 
-        const body = {
+        
+
+         axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
             "BusinessShortCode": 4084101,
             "Password": base64string,
             "Timestamp": timestamp,
@@ -127,11 +129,9 @@ module.exports = function(app){
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
             "AccountReference": "LowBid Payment",
             "TransactionDesc": "LowBid Payment" 
-          }
-
-         axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
+          },{
             headers: {
-                
+                'Content-Type':'application/json',
                 'Authorization':'Bearer D6TsfoWm6xuVCh1niRAbsrQ5P6qW'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
