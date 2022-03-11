@@ -137,17 +137,16 @@ module.exports = function(app){
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
                 res.json({bid:bid_ });
-                // connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
-                //     if (error){
-                //         res.json({message:error,bid:bid_ });
-                //     }else{
-                //         response.json({message:"Payment Request Receieved. Processing",bid:bid_})
-                //     }
-                    
-                // });
+                connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
+                    if (error){
+                        res.json({message:error,bid:bid_ });
+                    }else{
+                        response.json({message:"Payment Request Receieved. Processing",bid:bid_})
+                    }
+                });
                 
             }).catch(error => {
-                response.json({messages:error});
+                response.json({error:error});
             });
     
     });
