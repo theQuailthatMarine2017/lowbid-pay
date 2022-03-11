@@ -130,7 +130,7 @@ module.exports = function(app){
           },{
             headers: {
                 'Content-Type':'application/json',
-                'Authorization':'Bearer GIVuoGm1HtWLfPgxVAigfMXjdtA0'
+                'Authorization':'Bearer GIVuoGm1HtWLfPgxVAigfMXjd'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
