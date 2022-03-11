@@ -120,7 +120,7 @@ module.exports = function(app){
          axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
             "BusinessShortCode": 4084101,
             "Password": base64string,
-            "Timestamp": timestamp,
+            "Timestamp": "20160216165627",
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 1,
             "PartyA": 254705009784,
