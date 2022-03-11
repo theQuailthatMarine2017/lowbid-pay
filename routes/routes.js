@@ -115,10 +115,9 @@ module.exports = function(app){
         let timestamp = require('../middleware/timestamp').timestamp;
         let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
 
-        try {
-            axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
+         axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
             "BusinessShortCode": 4084101,
-            "Password": base64string,
+            "Password": 'NDA4NDEwMWU0MmNhM2NmM2JmYjg0YmU0NzRiYTQ4NWFhZjNjNWNhZjk0ODIwZDFhYjdkMjk5ZTQzZDFkMTRlZDBlMGZlZmMyMDE2MDIxNjE2NTYyNw==',
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 1,
@@ -131,7 +130,7 @@ module.exports = function(app){
           },{
             headers: {
                 'Content-Type':'application/json',
-                'Authorization':'Bearer GIVuoGm1HtWLfPgxVAigfMXjdtA0'
+                'Authorization':'Bearer D6TsfoWm6xuVCh1niRAbsrQ5P6qW'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
@@ -149,10 +148,9 @@ module.exports = function(app){
                     }
                 });
                 
-            })
-        } catch (error) {
-            response.json({error:error})
-        }
+            }).catch(error => {
+                response.json({error:error})
+            });
             
     
     });
@@ -177,7 +175,7 @@ module.exports = function(app){
 
         console.log("<------ STK RESPONSE ------->")
         //PAYMENT HAD ERROR
-        if(req.body.Body.stkCallback.ResultCode === 1 || req.body.Body.stkCallback.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
+        if(req.body.Body.stkCallback.ResultCode === 1 || req.body.Body.stkCallback.Body.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
             // LOG ERROR 
             console.log('<------FAILED MPESA TRANSACTION-------->');
             const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, req.body.Body.stkCallback.ResultDesc, 'callback from mpesa','callback from mpesa');
