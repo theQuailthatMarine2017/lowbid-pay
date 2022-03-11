@@ -115,14 +115,13 @@ module.exports = function(app){
         let timestamp = require('../middleware/timestamp').timestamp;
         let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
 
-        
-
-         axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
+        try {
+            axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
             "BusinessShortCode": 4084101,
             "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
-            "Amount": 1000,
+            "Amount": 1,
             "PartyA": parseInt(bidobject.mobile),
             "PartyB": 4084101,
             "PhoneNumber": parseInt(bidobject.mobile),
@@ -150,9 +149,10 @@ module.exports = function(app){
                     }
                 });
                 
-            }).catch(error => {
-                response.json({error:error})
-            });
+            })
+        } catch (error) {
+            response.json({error:error})
+        }
             
     
     });
