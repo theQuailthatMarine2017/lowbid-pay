@@ -152,7 +152,7 @@ module.exports = function(app){
                 });
                 
             }).catch(error => {
-                response.json({error:"oooppsss"})
+                response.json({error:error})
             });
             
     
