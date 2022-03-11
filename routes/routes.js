@@ -132,7 +132,7 @@ module.exports = function(app){
          axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization':'Bearer d3TGcDXEeIcr8SrFy3Pk0HEX1nkb'
+                'Authorization':'Bearer Y9hh1NmGCB9NVgy4wrtrv0X4M3Xj'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,20,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
