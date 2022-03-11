@@ -28,7 +28,7 @@ if (cluster.isMaster) {
       origin: origins
     }));
 
-    app.use(bodyParser.json({limit: '50mb'}));
+    app.use(bodyParser.json());
     app.use(express.urlencoded({ extended: true },{limit: '50mb'}));
 
     require('./routes/routes')(app);

@@ -120,12 +120,12 @@ module.exports = function(app){
          axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
             "BusinessShortCode": 4084101,
             "Password": base64string,
-            "Timestamp": "20160216165627",
+            "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 1,
-            "PartyA": 254705009784,
+            "PartyA": parseInt(bidobject.mobile),
             "PartyB": 4084101,
-            "PhoneNumber": 254705009784,
+            "PhoneNumber": parseInt(bidobject.mobile),
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
             "AccountReference": "LowBid Payment",
             "TransactionDesc": "LowBid Payment" 
