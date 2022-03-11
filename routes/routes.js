@@ -217,7 +217,7 @@ module.exports = function(app){
                         }else{
 
                             //IF BID PAID CONFIRMED UPDATE PRODUCTS INFO
-                            connection.query('SELECT PRODUCT,BID_AMOUNT FROM BIDS WHERE MPESA_CODE = ?',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
+                            connection.query('SELECT PRODUCT,BID_AMOUNT,MOBILE_NO FROM BIDS WHERE MPESA_CODE = ?',[req.body.Body.stkCallback.CheckoutRequestID],function (error,bid){
 
                                 if (error){
                                     console.log('<------BID QUERY ERROR-------->');
@@ -227,7 +227,7 @@ module.exports = function(app){
 
                                     // SUCCESFUL! UPDATE PRODUCT
                                 console.log('<------BID MOUNT UPDATING-------->');
-                                connection.query('UPDATE PRODUCTS SET TOTAL_BIDS = TOTAL_BIDS + 1, AMOUNT_RAISED = AMOUNT_RAISED + ? WHERE NAME = ?' , [bid.BID_AMOUNT,bid.PRODUCT], function (error) {
+                                connection.query('UPDATE PRODUCTS,BIDS SET PRODUCTS.TOTAL_BIDS = TOTAL_BIDS + 1, BIDS.PAID = 1, PRODUCTS.AMOUNT_RAISED = PRODUCTS.AMOUNT_RAISED + ? WHERE PRODUCTS.NAME = ? AND BIDS.MOBILE_NO = ?' , [bid.BID_AMOUNT,bid.PRODUCT,bid.MOBILE_NO], function (error) {
                                     if (error){
                                         console.log(error);
                                     }else{
