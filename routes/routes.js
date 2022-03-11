@@ -147,7 +147,7 @@ module.exports = function(app){
                 // });
                 
             }).catch(error => {
-                response.json({message:error});
+                response.json({messages:error});
             });
     
     });
