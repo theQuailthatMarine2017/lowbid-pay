@@ -148,8 +148,31 @@ module.exports = function(app){
                     }
                 });
                 
-            }).catch(error => {
-                response.json({error:error})
+            }).catch( Error => {
+
+                console.log(Error)
+                if(Error.errorCode != null){
+                    console.log(Error)
+                    // console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
+                    // let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
+
+                    // connection.query('INSERT INTO BIDS SET ?', [bid_], function (err, results) {
+                    //     if (err){
+                    //         const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, error, 'mpesa request','mpesa request');
+                    //             connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (err) {
+                    //                 if (err){
+                    //                     res.json({message:"Server Error"});
+                    //                 }
+                    //                 })
+                    //     }else{
+                    //         response.json({message:"Payment Request Receieved. Processing"})
+                    //     }
+                    // });
+
+                }else{
+                    response.json({error:Error.errorCode})
+                }
+                
             });
             
     
@@ -158,7 +181,7 @@ module.exports = function(app){
     app.post('/payments/bid/callback', async(req,res) => {
 
         connection.connect();
-        console.log(req.body)
+        console.log(req.body.Body);
         // connection.query('INSERT INTO callback SET ?',[parseString(req.body.Body.stkCallback)], function (err, results) {
         //     if (err){
         //         console.log(err)
@@ -175,7 +198,7 @@ module.exports = function(app){
 
         console.log("<------ STK RESPONSE ------->")
         //PAYMENT HAD ERROR
-        if(req.body.Body.stkCallback.ResultCode === 1 || req.body.Body.stkCallback.Body.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
+        if(req.body.Body.stkCallback.ResultCode === 1 || req.body.Body.stkCallback.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
             // LOG ERROR 
             console.log('<------FAILED MPESA TRANSACTION-------->');
             const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, req.body.Body.stkCallback.ResultDesc, 'callback from mpesa','callback from mpesa');
