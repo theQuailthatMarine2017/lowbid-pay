@@ -113,11 +113,11 @@ module.exports = function(app){
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
 
         let timestamp = require('../middleware/timestamp').timestamp;
-        let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
+        // let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
 
         const body = {
             "BusinessShortCode": 4084101,
-            "Password": base64string,
+            "Password": 'NDA4NDEwMWU0MmNhM2NmM2JmYjg0YmU0NzRiYTQ4NWFhZjNjNWNhZjk0ODIwZDFhYjdkMjk5ZTQzZDFkMTRlZDBlMGZlZmMyMDE2MDIxNjE2NTYyNw==',
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
             "Amount": 1,
