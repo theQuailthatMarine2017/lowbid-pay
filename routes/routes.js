@@ -135,7 +135,7 @@ module.exports = function(app){
                 'Authorization':'Bearer Y9hh1NmGCB9NVgy4wrtrv0X4M3Xj'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
-                let bid_ = bid.bids(bidobject.name,20,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
+                let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
                 connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
                     if (error){
                         res.json({message:error});
