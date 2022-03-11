@@ -150,7 +150,7 @@ module.exports = function(app){
                 
             }).catch( Error => {
 
-                console.log(Error)
+                console.log(Error.response.status)
                 if(Error.errorCode != null){
                     console.log(Error)
                     // console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
