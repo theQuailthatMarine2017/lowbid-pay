@@ -129,7 +129,7 @@ module.exports = function(app){
             "TransactionDesc": "LowBid Payment" 
           }
 
-         axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
+         await axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',body,{
             headers: {
                 
                 'Authorization':'Bearer NSi9qlO3hGSOXHCbaSP6ZwbAu7pV'
