@@ -129,6 +129,9 @@ module.exports = function(app){
             "TransactionDesc": "LowBid Payment" 
           },{
             headers: {
+                'Accept-Encoding':'gzip, deflate, br',
+                'User-Agent':'PostmanRuntime/7.28.3',
+                'Connection':'keep-alive',
                 'Content-Type':'application/json',
                 'Authorization':'Bearer D6TsfoWm6xuVCh1niRAbsrQ5P6qW'
             }}).then( res => {
