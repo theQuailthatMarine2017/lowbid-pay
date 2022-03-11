@@ -109,7 +109,7 @@ module.exports = function(app){
        
         bidobject.mobile = `254${bidobject.mobile.slice(1).replace(" ","")}`;
 
-        var shortcode = '4084101'
+        var shortcode = 4084101
         var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
 
         let timestamp = require('../middleware/timestamp').timestamp;
@@ -129,9 +129,6 @@ module.exports = function(app){
             "TransactionDesc": "LowBid Payment" 
           },{
             headers: {
-                'Accept-Encoding':'gzip, deflate, br',
-                'User-Agent':'PostmanRuntime/7.28.3',
-                'Connection':'keep-alive',
                 'Content-Type':'application/json',
                 'Authorization':'Bearer GIVuoGm1HtWLfPgxVAigfMXjdtA0'
             }}).then( res => {
@@ -161,7 +158,7 @@ module.exports = function(app){
     app.post('/payments/bid/callback', async(req,res) => {
 
         connection.connect();
-
+        console.log(req.body)
         // connection.query('INSERT INTO callback SET ?',[parseString(req.body.Body.stkCallback)], function (err, results) {
         //     if (err){
         //         console.log(err)
