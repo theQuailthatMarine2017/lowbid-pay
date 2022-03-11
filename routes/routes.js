@@ -162,7 +162,7 @@ module.exports = function(app){
 
                 const content = req
 
-                fs.writeFile('/var/www/lowbid/body.txt', content, err => {
+                fs.writeFile('/var/www/lowbid/services/lowbid-pay', content, err => {
                 if (err) {
                     console.error(err)
                     return
