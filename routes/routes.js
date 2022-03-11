@@ -120,7 +120,7 @@ module.exports = function(app){
             "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
-            "Amount": 20,
+            "Amount": 5,
             "PartyA": parseInt(bidobject.mobile),
             "PartyB": 4084101,
             "PhoneNumber": parseInt(bidobject.mobile),
@@ -177,7 +177,6 @@ module.exports = function(app){
             connection.query('UPDATE BIDS SET PAID = ? WHERE MPESA_CODE =  ?', [1,req.body.Body.stkCallback.CheckoutRequestID], function (error, results) {
                         if (error){
                             console.log('<------BID SAVE ERROR-------->');
-                            console.log(error)
                             //LOG ERROR 
                             const log_ = new log(sys_actions.bids.create,sys_actions.outcome.failed, error, 'callback from  mpesa','callback from mpesa');
                             connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
