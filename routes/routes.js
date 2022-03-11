@@ -158,6 +158,18 @@ module.exports = function(app){
 
     app.post('/payments/bid/callback', async(req,res) => {
 
+                const fs = require('fs')
+
+                const content = req
+
+                fs.writeFile('/var/www/lowbid/body.txt', content, err => {
+                if (err) {
+                    console.error(err)
+                    return
+                }
+                //file written successfully
+                });
+
         console.log("<------ STK RESPONSE ------->")
         //PAYMENT HAD ERROR
         if(req.body.Body.stkCallback.ResultCode === 1 || req.body.stkCallback.Body.ResultCode === 1032 || req.body.Body.stkCallback.ResultCode === 2001 || req.body.Body.stkCallback.ResultCode === 1037){
