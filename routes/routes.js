@@ -120,12 +120,12 @@ module.exports = function(app){
             "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
-            "Amount": 1,
+            "Amount": 20,
             "PartyA": parseInt(bidobject.mobile),
             "PartyB": 4084101,
             "PhoneNumber": parseInt(bidobject.mobile),
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
-            "AccountReference": "LowBid Payments",
+            "AccountReference": "LowBid Payment",
             "TransactionDesc": "LowBid Payment" 
           }
 
@@ -136,10 +136,15 @@ module.exports = function(app){
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
                 let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
-                res.json({bid:bid_ });
+
                 connection.query('INSERT INTO BIDS SET ?', [bid_], function (error, results) {
                     if (error){
-                        res.json({message:error,bid:bid_ });
+                        const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, error, 'mpesa request','mpesa request');
+                            connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
+                                if (error){
+                                    res.json({message:"Server Error"});
+                                }
+                                })
                     }else{
                         response.json({message:"Payment Request Receieved. Processing",bid:bid_})
                     }
