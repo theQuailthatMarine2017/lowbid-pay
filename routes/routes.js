@@ -130,7 +130,7 @@ module.exports = function(app){
           },{
             headers: {
                 'Content-Type':'application/json',
-                'Authorization':'Bearer 6nHm9Qrcbej9Huup538WhvwAL9p0'
+                'Authorization':'Bearer 0PnQQyKjNW3TPWHuKywUiJOVBpw0'
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY! --------->');
                 console.log(res.data)
