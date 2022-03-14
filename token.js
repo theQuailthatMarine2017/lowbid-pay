@@ -7,5 +7,5 @@ var consumerSecret = process.env.SECRET //Enter consumerSecret issues by daraja
 
 //Generates token every 50Min From CronJob
 auth.generate(environment,consumerKey,consumerSecret,function(token){
-    process.env.TOKEN = token.code
+    process.env.AUTH_TOKEN = token.code
 });

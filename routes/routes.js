@@ -106,6 +106,7 @@ module.exports = function(app){
         bidobject.mobile = req.body.mobile;
         bidobject.category = req.body.category;
 
+        console.log(process.env.AUTH_TOKEN)
        
         bidobject.mobile = `254${bidobject.mobile.slice(1).replace(" ","")}`;
 
