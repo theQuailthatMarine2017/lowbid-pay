@@ -21,6 +21,8 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mpesa-api": "^3.0.2",
+    "mpesa-auth-token-generator": "^1.0.15",
+    "mpesa-v2": "^1.0.1",
     "mysql2": "^2.3.3",
     "uuid": "^8.3.2"
   },

@@ -130,7 +130,7 @@ module.exports = function(app){
           },{
             headers: {
                 'Content-Type':'application/json',
-                'Authorization':'Bearer 0PnQQyKjNW3TPWHuKywUiJOVBpw0'
+                'Authorization':`Bearer ${process.env.AUTH_TOKEN}`
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY! --------->');
                 console.log(res.data)
@@ -231,7 +231,7 @@ module.exports = function(app){
 
                                     // SUCCESFUL! UPDATE PRODUCT
                                 console.log('<------BID MOUNT UPDATING-------->');
-                                connection.query('UPDATE PRODUCTS SET TOTAL_BIDS = TOTAL_BIDS + 1, AMOUNT_RAISED = AMOUNT_RAISED + ? WHERE NAME = ?' , [bid.BID_AMOUNT,bid.PRODUCT], function (error,results) {
+                                connection.query('UPDATE PRODUCTS SET TOTAL_BIDS = TOTAL_BIDS + 1, AMOUNT_RAISED = AMOUNT_RAISED + ? WHERE NAME = ?' , [bid[0].BID_AMOUNT,bid[0].PRODUCT], function (error,results) {
                                     if (error){
                                         console.log(error);
                                     }else{
