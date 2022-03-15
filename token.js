@@ -10,6 +10,6 @@ var consumerSecret = process.env.SECRET //Enter consumerSecret issues by daraja
 auth.generate(environment,consumerKey,consumerSecret,function(token){
     console.log("PreviousToken: " + process.env.AUTH_TOKEN)
     console.log("Generated Token: " + token.code)
-    process.env.AUTH_TOKEN = token.code
+    setTimeout(process.env.AUTH_TOKEN = token.code,0) 
     console.log("Updated Token: " + process.env.AUTH_TOKEN)
 });
