@@ -29,11 +29,11 @@ auth.generate(environment,consumerKey,consumerSecret,function(token){
     
     console.log("New Token: " + token.code)
     // UPDATE MYSQL BEARER TABLE
-    connection.query('UPDATE TABLE BEARER SET TOKEN = ?',[token.code], function(error,result){
+    connection.query('UPDATE BEARER SET TOKEN = ?',[token.code], function(error,result){
         if (error){
             console.log('<------BID SAVE ERROR-------->');
             //LOG ERROR 
-            const log_ = new log('cron job creating new token','token update failed', error, 'auth token update','auth token update');
+            const log_ = new log('cron job creating new token','failed', error, 'auth token update','auth token update');
             connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
                 if (error){
                     console.log(error)
