@@ -44,6 +44,7 @@ auth.generate(environment,consumerKey,consumerSecret,function(token){
         }else{
             if(result != null){
                 console.log("Token Updated")
+                process.exit()
             }
         }
     });
