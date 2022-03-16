@@ -8,6 +8,17 @@ var connection = mysql.createConnection({
     database : 'lowbid'
   });
 
+class log{
+    constructor(action, outcome, result, ip, device) {
+        this.OUTCOME = outcome
+        this.ERROR = result
+        this.SYS_ACTION = action;
+        this.TIME = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        this.IP_SRC= ip;
+        this.DEVICE = device
+    }
+}
+
 var environment = process.env.ENVIRONMENT //Can be either 'production' or 'sandbox'
 var consumerKey = process.env.KEY //Enter consumerKey issued by Daraja
 var consumerSecret = process.env.SECRET //Enter consumerSecret issues by daraja
