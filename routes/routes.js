@@ -114,7 +114,7 @@ module.exports = function(app){
             bidobject.mobile = req.body.mobile;
             bidobject.category = req.body.category;
 
-            console.log(token)
+            console.log(token[0].TOKEN)
         
             bidobject.mobile = `254${bidobject.mobile.slice(1).replace(" ","")}`;
 
@@ -139,7 +139,7 @@ module.exports = function(app){
           },{
             headers: {
                 'Content-Type':'application/json',
-                'Authorization':`Bearer ${token[0]}`
+                'Authorization':`Bearer ${token[0].TOKEN}`
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY! --------->');
                 console.log(res.data)
