@@ -16,6 +16,7 @@ var consumerSecret = process.env.SECRET //Enter consumerSecret issues by daraja
 //Generates token every 50Min From CronJob
 auth.generate(environment,consumerKey,consumerSecret,function(token){
     
+    console.log("New Token: " + token.code)
     // UPDATE MYSQL BEARER TABLE
     connection.query('UPDATE TABLE BEARER SET TOKEN = ?',[token.code], function(error,result){
         if (error){
