@@ -43,8 +43,17 @@ auth.generate(environment,consumerKey,consumerSecret,function(token){
 
         }else{
             if(result != null){
-                console.log("Token Updated")
-                process.exit()
+                const log_ = new log('cron job creating new token','success', 'token updated successfully', 'auth token update','auth token update');
+                connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
+                    if (error){
+                        console.log(error)
+                        res.json({message:"Server Error"});
+                    }else{
+                        console.log("Token Updated")
+                        process.exit()
+                    }
+                });
+                
             }
         }
     });
