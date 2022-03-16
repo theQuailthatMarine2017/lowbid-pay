@@ -100,23 +100,31 @@ module.exports = function(app){
         // let bid_ = bid.bids(req.body.name,req.body.bid_amount,req.body.mobile);
         // console.log(bid_ );
         //Create bid object for use in STK callback route
-        bidobject.name = req.body.product;
-        bidobject.bid_placed = req.body.price;
-        bidobject.lowest_bid = req.body.lowest;
-        bidobject.mobile = req.body.mobile;
-        bidobject.category = req.body.category;
+        
 
-        console.log(process.env.AUTH_TOKEN)
-       
-        bidobject.mobile = `254${bidobject.mobile.slice(1).replace(" ","")}`;
+        connection.query('SELECT TOKEN FROM BEARER LIMIT 1', function (err, token) {
 
-        var shortcode = 4084101
-        var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
+            if (err){
+                res.json({message:"Server Error"});
+            }
 
-        let timestamp = require('../middleware/timestamp').timestamp;
-        let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
+            bidobject.name = req.body.product;
+            bidobject.bid_placed = req.body.price;
+            bidobject.lowest_bid = req.body.lowest;
+            bidobject.mobile = req.body.mobile;
+            bidobject.category = req.body.category;
 
-         axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
+            console.log(token)
+        
+            bidobject.mobile = `254${bidobject.mobile.slice(1).replace(" ","")}`;
+
+            var shortcode = 4084101
+            var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
+
+            let timestamp = require('../middleware/timestamp').timestamp;
+            let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
+
+            axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
             "BusinessShortCode": 4084101,
             "Password": base64string,
             "Timestamp": timestamp,
@@ -131,7 +139,7 @@ module.exports = function(app){
           },{
             headers: {
                 'Content-Type':'application/json',
-                'Authorization':`Bearer ${process.env.AUTH_TOKEN}`
+                'Authorization':`Bearer ${token[0]}`
             }}).then( res => {
                 console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY! --------->');
                 console.log(res.data)
@@ -159,26 +167,12 @@ module.exports = function(app){
 
                 }else{
                     response.json({message:"Payment Request Receieved. Processing"});
-                    //This solution is a last resort to fix the issue of not getting a positiv response from mpesa
-
-                    // console.log('<-------MPESA TRANSACTION SENT SUCCESSFULLY--------->');
-                    // let bid_ = bid.bids(bidobject.name,bidobject.bid_placed,bidobject.lowest_bid,bidobject.mobile,bidobject.category,res.data.MerchantRequestID);
-
-                    // connection.query('INSERT INTO BIDS SET ?', [bid_], function (err, results) {
-                    //     if (err){
-                    //         const log_ = new log(sys_actions.mpesa.failed,sys_actions.outcome.failed, error, 'mpesa request','mpesa request');
-                    //             connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (err) {
-                    //                 if (err){
-                    //                     res.json({message:"Server Error"});
-                    //                 }
-                    //                 })
-                    //     }else{
-                    //         response.json({message:"Payment Request Receieved. Processing"})
-                    //     }
-                    // });
+                   
                 }
                 
             });
+
+        });
             
     
     });
