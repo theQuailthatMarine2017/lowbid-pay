@@ -2,6 +2,7 @@ const axios = require('axios');
 
 var sendSMS = function (phone,product) {
     return new Promise(async function (resolve, reject) {
+        console.log(phone)
         let res = await axios.post('http://45.63.51.221/api/v2/SendSMS',{
             "SenderId": "Lowbids",
             "Is_Unicode": true,
@@ -14,7 +15,7 @@ var sendSMS = function (phone,product) {
             "ClientId": "1e0d7f53-50ef-4a66-ae19-3f68b0ca3ffb"
         });
         let data = res.data;
-        console.log(data.Data);
+        console.log(data.ErrorDescription);
         if (data.Data[0].MessageErrorDescription === 'Success') {
             connection.query('UPDATE PRODUCTS SET COMPLETED = 1 WHERE NAME = ?', [product], function (error, bids) {
                 if (error != null) {
