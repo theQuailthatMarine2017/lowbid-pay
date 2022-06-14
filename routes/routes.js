@@ -121,24 +121,24 @@ module.exports = function(app){
         
             bidobject.mobile = `254${bidobject.mobile.slice(1).replace(" ","")}`;
 
-            var shortcode = 7862616
+            var shortcode = 9810597
             var passKey = '1b34cf11242d8bfc37e648d42ced7ed4fb84f4c791833fa5bfe5f774ef7cc6a8'
 
             let timestamp = require('../middleware/timestamp').timestamp;
             let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
 
             axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
-            "BusinessShortCode": 7862616,
+            "BusinessShortCode": 9810597,
             "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerBuyGoodsOnline",
             "Amount": parseInt(bidobject.lowest_bid),
             "PartyA": parseInt(bidobject.mobile),
-            "PartyB": 7862616,
+            "PartyB": 9810597,
             "PhoneNumber": parseInt(bidobject.mobile),
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
             "AccountReference": "Lowbids | Win Big, Bid Low",
-            "TransactionDesc": `Lowbids Bid Payment` 
+            "TransactionDesc": `Lowbids Bid Payment for Item ${bidobject.name}` 
           },{
             headers: {
                 'Content-Type':'application/json',
