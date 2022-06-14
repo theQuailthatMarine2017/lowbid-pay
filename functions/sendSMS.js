@@ -2,7 +2,7 @@ const axios = require('axios');
 
 var sendSMS = function (phone,product) {
     return new Promise(async function (resolve, reject) {
-        let res = await axios.post('http://user.smsmobivas.co.ke/api/v2/SendSMS',{
+        let res = await axios.post('http://45.63.51.221/api/v2/SendSMS',{
             "SenderId": "Lowbids",
             "Is_Unicode": true,
             "Is_Flash": true,
