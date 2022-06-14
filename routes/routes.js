@@ -88,7 +88,7 @@ module.exports = function(app){
 
     app.get('/hello',(req,res) => {
 
-        res.send(req);
+        res.send("Pay up boi");
 
     });
 
