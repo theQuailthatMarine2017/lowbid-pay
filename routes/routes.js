@@ -237,7 +237,7 @@ module.exports = function(app){
                                         console.log('<------BID AMOUNT UPDATED-------->');
                                         const log_ = new log(sys_actions.products.updated,sys_actions.outcome.success,null, 'callback from mpesa','callback from mpesa');
                                         // Neat!
-                                        connection.query('INSERT INTO SYS_LOGS SET ?', [log_], function (error) {
+                                        connection.query('INSERT INTO SYS_LOGS SET ?', [log_], async function (error) {
                                             if (error){
                                                         console.log(error);
                                                     }else{
