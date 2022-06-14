@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-var smsSMS = function (phone,product) {
+var sendSMS = function (phone,product) {
     return new Promise(async function (resolve, reject) {
         let res = await axios.post('http://user.smsmobivas.co.ke/api/v2/SendSMS',{
             "SenderId": "Lowbids",
