@@ -138,7 +138,7 @@ module.exports = function(app){
             "PhoneNumber": parseInt(bidobject.mobile),
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
             "AccountReference": "Lowbids | Win Big, Bid Low",
-            "TransactionDesc": `Lowbids Bid Payment For Product: ${bidobject.name}` 
+            "TransactionDesc": `Lowbids Bid Payment` 
           },{
             headers: {
                 'Content-Type':'application/json',
