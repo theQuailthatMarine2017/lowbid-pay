@@ -11,6 +11,9 @@ const credentials = {
 const Africastalking = require('africastalking')(credentials);
 const sms = Africastalking.SMS
 
+//SMS API FUNCTION MODULE
+const sendSMS = require('../functions/sendSMS');
+
 var connection = mysql.createConnection({
     user     : 'lowbid',
     password : 'Jesuspeace93!',
@@ -114,28 +117,28 @@ module.exports = function(app){
             bidobject.mobile = req.body.mobile;
             bidobject.category = req.body.category;
 
-            console.log(token[0].TOKEN)
+            console.log(token[0].TOKEN);
         
             bidobject.mobile = `254${bidobject.mobile.slice(1).replace(" ","")}`;
 
-            var shortcode = 4084101
-            var passKey = 'e42ca3cf3bfb84be474ba485aaf3c5caf94820d1ab7d299e43d1d14ed0e0fefc'
+            var shortcode = 9810597
+            var passKey = '1b34cf11242d8bfc37e648d42ced7ed4fb84f4c791833fa5bfe5f774ef7cc6a8'
 
             let timestamp = require('../middleware/timestamp').timestamp;
             let base64string = new Buffer.from(`${shortcode}${passKey}${timestamp}`).toString('base64');
 
             axios.post('https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest',{
-            "BusinessShortCode": 4084101,
+            "BusinessShortCode": 9810597,
             "Password": base64string,
             "Timestamp": timestamp,
             "TransactionType": "CustomerPayBillOnline",
-            "Amount": 20,
+            "Amount": parseInt(bidobject.lowest_bid),
             "PartyA": parseInt(bidobject.mobile),
-            "PartyB": 4084101,
+            "PartyB": 9810597,
             "PhoneNumber": parseInt(bidobject.mobile),
             "CallBackURL": "https://pay.lowbids.co.ke/payments/bid/callback",
-            "AccountReference": "LowBid Payment",
-            "TransactionDesc": "LowBid Payment" 
+            "AccountReference": "Lowbids | Win Big, Bid Low",
+            "TransactionDesc": `Lowbids Bid Payment For Product: ${bidobject.name}` 
           },{
             headers: {
                 'Content-Type':'application/json',
@@ -154,7 +157,7 @@ module.exports = function(app){
                                 }
                                 })
                     }else{
-                        response.json({message:"Payment Request Receieved. Processing"})
+                        response.json({ message: "Payment Request Receieved. Processing" });
                     }
                 });
                 
@@ -180,7 +183,6 @@ module.exports = function(app){
     app.post('/payments/bid/callback', async(req,res) => {
 
         connection.connect();
-        
 
         console.log("<------ STK RESPONSE ------->")
         //PAYMENT HAD ERROR
@@ -240,28 +242,12 @@ module.exports = function(app){
                                                         console.log(error);
                                                     }else{
                                                         // Neat!
-                                                        //Africa Talking SMS to Winning Mobile
-                                                        const options = {
-                                                            to: [`+${bid[0].MOBILE_NO}`],
-                                                            message: 'Congratulations! Your Bid Has Been Successfully Placed! Thank You For Choosing Lowbids!'
-                                                        }
-
-                                                        sms.send(options)
-                                                            .then( response => {
-
-                                                                console.log(response.SMSMessageData["Recipients"])
-                                                                if(response["Recipients"] != []){
-                                                                    res.json({message:"Bid Placed"});
-
-                                                                }else{
-                                                                    res.json({message:response.Message});
-                                                                }
-                                                            })
-                                                            .catch( error => {
-
-                                                                console.log(error)
-                                                                res.json({message:error});
-                                                            });
+                                                        //NEW SMS API
+                                                        await sendSMS(bid[0].MOBILE_NO, bid[0].PRODUCT).then(function (result) {
+                                                            res.status(200).json({message:"Bid Placed",data:result});
+                                                        }).catch(function (error) {
+                                                            res.status(400).send(error);
+                                                        });
                                                         
                                                     }
                                                 });
